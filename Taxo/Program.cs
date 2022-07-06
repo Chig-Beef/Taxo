@@ -19,47 +19,55 @@ namespace Taxo
 {
     internal class Program
     {
+
         static void Main(string[] args)
         {
-            Test test = new Test();
-            
-            string filename = @"code.txt", line = "";
-            int count = 0;
-            string[] reader = new string[50];
+            // This is used to make sure the file names are consistent between reading and writing.
+            string fileName = "code";
+
+            // Takes the filename and reads the corresponding file into an array of strings.
+            string[] reader = Read_File(fileName + ".txt");
+
+            // Takes the resulting file after processing,
+            // and turns it into a .cs
+            Write_File(reader, fileName);
+        }
+
+        private static string[] Read_File(string filename)
+        {
+            string line; // To hold the current line being read
+            int count = 0; // To count how many elements there are
+            string[] reader = new string[50]; // To hold the lines
+            filename += ".txt";
 
             using (StreamReader sr = File.OpenText(filename))
             {
                 line = sr.ReadLine();
                 while (line != null)
                 {
-                    Console.WriteLine(line);
                     reader[count] = line;
                     count++;
                     line = sr.ReadLine();
                 }
             }
 
-            // Declare
-            filename = @"code.cs";
-            count = 0;
+            return reader;
+        }
 
-            // Processing
+        private static void Write_File(string[] output, string name)
+        {
+            string filename = name + ".cs";
+            int count = 0;
+
             using (StreamWriter sr = File.CreateText(filename))
             {
-                while (reader[count] != null)
+                while (output[count] != null)
                 {
-                    sr.WriteLine(reader[count]);
+                    sr.WriteLine(output[count]);
                     count++;
                 }
             }
         }
 
-        public class Test
-        {
-            public Test()
-            {
-                Console.WriteLine("hello");
-            }
-        }
     }
 }

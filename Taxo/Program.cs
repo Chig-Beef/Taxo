@@ -22,6 +22,36 @@ namespace Taxo
         static void Main(string[] args)
         {
             Test test = new Test();
+            
+            string filename = @"code.txt", line = "";
+            int count = 0;
+            string[] reader = new string[50];
+
+            using (StreamReader sr = File.OpenText(filename))
+            {
+                line = sr.ReadLine();
+                while (line != null)
+                {
+                    Console.WriteLine(line);
+                    reader[count] = line;
+                    count++;
+                    line = sr.ReadLine();
+                }
+            }
+
+            // Declare
+            filename = @"code.cs";
+            count = 0;
+
+            // Processing
+            using (StreamWriter sr = File.CreateText(filename))
+            {
+                while (reader[count] != null)
+                {
+                    sr.WriteLine(reader[count]);
+                    count++;
+                }
+            }
         }
 
         public class Test

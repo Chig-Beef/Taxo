@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using System.IO;
 
 /*
- * 
  * This will be a new programming language,
  * based almost entirely on the objective of a perfect syntax.
  * 
@@ -28,17 +27,20 @@ namespace Taxo
             // Takes the filename and reads the corresponding file into an array of strings.
             string[] reader = Read_File(fileName + ".txt");
 
+            // Here is the processing of the file, the many steps
+            string[] processed = Process_File(reader);
+
             // Takes the resulting file after processing,
             // and turns it into a .cs
             Write_File(reader, fileName);
         }
 
+        // Main Steps - Input, Processing, Output
         private static string[] Read_File(string filename)
         {
             string line; // To hold the current line being read
             int count = 0; // To count how many elements there are
             string[] reader = new string[50]; // To hold the lines
-            filename += ".txt";
 
             using (StreamReader sr = File.OpenText(filename))
             {
@@ -47,11 +49,20 @@ namespace Taxo
                 {
                     reader[count] = line;
                     count++;
+                    Console.WriteLine(line);
                     line = sr.ReadLine();
                 }
             }
 
             return reader;
+        }
+
+        private static string[] Process_File(string[] input)
+        {
+            input = Add_Semicolons(input);
+            input = Add_Curly_Brackets(input);
+
+            return input;
         }
 
         private static void Write_File(string[] output, string name)
@@ -69,5 +80,15 @@ namespace Taxo
             }
         }
 
+        // Processing steps split
+        private static string[] Add_Semicolons(string[] input)
+        {
+            return input;
+        }
+
+        private static string[] Add_Curly_Brackets(string[] input)
+        {
+            return input;
+        }
     }
 }

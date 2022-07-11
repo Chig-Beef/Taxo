@@ -12,11 +12,11 @@ using System.IO;
  * The language will be compiled into C#,
  * this will make it versatile in that it can be run with other programs,
  * such as unity.
-*/
+ */
 
 namespace Taxo
 {
-    internal class Program
+    class Program
     {
 
         static void Main(string[] args)
@@ -61,6 +61,10 @@ namespace Taxo
         {
             input = Add_Semicolons(input);
             input = Add_Curly_Brackets(input);
+            input = Add_Usings(input);
+            input = Add_Namespace(input);
+            input = Rename_Methods(input);
+            input = Rename_Types(input);
 
             return input;
         }
@@ -80,15 +84,45 @@ namespace Taxo
             }
         }
 
-        // Processing steps split
+        /*
+         * Processing steps split
+         */
+
+        // Adds the semicolons to each line
         private static string[] Add_Semicolons(string[] input)
         {
             return input;
         }
 
+        // Adds curly brackets to blocks of code
         private static string[] Add_Curly_Brackets(string[] input)
         {
             return input;
         }
+
+        // Adds the using statements to the start of the code
+        private static string[] Add_Usings(string[] input)
+        {
+            return input;
+        }
+
+        // Adds the namespace container
+        private static string[] Add_Namespace(string[] input)
+        {
+            return input;
+        }
+
+        // Renames certain methods that have a simpler name in the uncompiled language
+        private static string[] Rename_Methods(string[] input)
+        {
+            return input;
+        }
+
+        // Renames some types which are created as shorthand for other types
+        private static string[] Rename_Types(string[] input)
+        {
+            return input;
+        }
+
     }
 }

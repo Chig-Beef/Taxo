@@ -18,21 +18,23 @@ namespace Taxo
 {
     class Program
     {
+        private static int Total { get; set; }
+        private static string FileName { get; set; }
 
         static void Main(string[] args)
         {
             // This is used to make sure the file names are consistent between reading and writing.
-            string fileName = "code";
+            FileName = "code";
 
             // Takes the filename and reads the corresponding file into an array of strings.
-            string[] reader = Read_File(fileName + ".txt");
+            string[] reader = Read_File(FileName + ".txt");
 
             // Here is the processing of the file, the many steps
             string[] processed = Process_File(reader);
 
             // Takes the resulting file after processing,
             // and turns it into a .cs
-            Write_File(reader, fileName);
+            Write_File(processed, FileName + ".cs");
         }
 
         // Main Steps - Input, Processing, Output
@@ -54,6 +56,8 @@ namespace Taxo
                 }
             }
 
+            Total = count;
+
             return reader;
         }
 
@@ -69,17 +73,13 @@ namespace Taxo
             return input;
         }
 
-        private static void Write_File(string[] output, string name)
+        private static void Write_File(string[] output, string filename)
         {
-            string filename = name + ".cs";
-            int count = 0;
-
             using (StreamWriter sr = File.CreateText(filename))
             {
-                while (output[count] != null)
+                for (int i = 0; i < output.Length; i++)
                 {
-                    sr.WriteLine(output[count]);
-                    count++;
+                    sr.WriteLine(output[i]);
                 }
             }
         }
@@ -109,7 +109,21 @@ namespace Taxo
         // Adds the namespace container
         private static string[] Add_Namespace(string[] input)
         {
-            return input;
+            string[] output = new string[Total + 6];
+
+            output[0] = "namespace " + FileName;
+            output[1] = "{";
+            output[2] = "    class Program";
+            output[3] = "    {";
+            output[Total + 4] = "    }";
+            output[Total + 5] = "}";
+
+            for (int i = 0; i < Total; i++)
+            {
+                output[i + 4] = "        " + input[i];
+            }
+
+            return output;
         }
 
         // Renames certain methods that have a simpler name in the uncompiled language

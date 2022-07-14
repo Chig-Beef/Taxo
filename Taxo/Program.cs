@@ -22,6 +22,8 @@ namespace Taxo
         private static string FileName { get; set; }
         private static Dictionary<string, string> Translations { get;} = new Dictionary<string, string>(2);
         private static int[] Tabs { get; set; }
+        private static string[] Usings { get; set; }
+        private static int UsingCount { get; set; }
 
         static void Main(string[] args)
         {
@@ -32,6 +34,10 @@ namespace Taxo
             Translations["strs"] = "string[]";
 
             Tabs = new int[50];
+
+            Usings = new string[20];
+            Usings[0] = "System";
+            UsingCount = 1;
 
             // Takes the filename and reads the corresponding file into an array of strings.
             string[] reader = Read_File(FileName + ".txt");
@@ -92,8 +98,8 @@ namespace Taxo
         {
             input = Add_Semicolons(input);
             input = Add_Curly_Brackets(input);
-            input = Add_Usings(input);
             input = Add_Namespace(input);
+            input = Add_Usings(input);
             input = Rename_Methods(input);
             input = Rename_Types(input);
 
@@ -139,12 +145,6 @@ namespace Taxo
             return input;
         }
 
-        // Adds the using statements to the start of the code
-        private static string[] Add_Usings(string[] input)
-        {
-            return input;
-        }
-
         // Adds the namespace container
         private static string[] Add_Namespace(string[] input)
         {
@@ -162,8 +162,23 @@ namespace Taxo
                 output[i + 4] = "        " + input[i];
             }
 
-            Total += 5;
+            Total += 6;
 
+            return output;
+        }
+
+        // Adds the using statements to the start of the code
+        private static string[] Add_Usings(string[] input)
+        {
+            string[] output = new string[Total + UsingCount];
+            for (int i = 0; i < UsingCount; i++)
+            {
+                output[i] = "using " + Usings[i] + ";";
+            }
+            for (int i = 0; i < Total; i++)
+            {
+                output[i + UsingCount] = input[i];
+            }
             return output;
         }
 
